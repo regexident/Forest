@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8187.4" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8151.3"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SpatialSearchTreeViewController" customModule="ForestDemo" customModuleProvider="target">
+            <connections>
+                <outlet property="benchmarkButton" destination="Mnj-2S-6eo" id="Veb-Mp-cXl"/>
+                <outlet property="headerView" destination="pP1-tg-Ya4" id="gJ3-hS-C6a"/>
+                <outlet property="view" destination="r3e-9q-1UH" id="j0d-MC-Y9L"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="r3e-9q-1UH">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="dataSource" destination="-1" id="tWC-m8-4Ec"/>
+                <outlet property="delegate" destination="-1" id="uF1-MK-I9U"/>
+            </connections>
+            <point key="canvasLocation" x="-42" y="-1419"/>
+        </tableView>
+        <view contentMode="scaleToFill" id="pP1-tg-Ya4">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="46"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnj-2S-6eo">
+                    <rect key="frame" x="234" y="8" width="133" height="30"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" title="Start Benchmarks"/>
+                    <connections>
+                        <action selector="startBenchmarks:" destination="-1" eventType="touchUpInside" id="NXL-ba-MIb"/>
+                    </connections>
+                </button>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Mnj-2S-6eo" firstAttribute="centerX" secondItem="pP1-tg-Ya4" secondAttribute="centerX" id="6lv-bJ-pmp"/>
+                <constraint firstItem="Mnj-2S-6eo" firstAttribute="centerY" secondItem="pP1-tg-Ya4" secondAttribute="centerY" id="f8J-iC-UVG"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-42" y="-1784"/>
+        </view>
+    </objects>
+</document>
