@@ -38,7 +38,7 @@ public enum RBTree<E: Comparable>: MutableBinarySearchTreeType {
 	}
 	
 	private init(sortedArraySlice slice: ArraySlice<Element>, color: RBTreeColor) {
-		let range = Range(start: slice.startIndex, end: slice.endIndex)
+		let range = slice.startIndex..<slice.endIndex
 		if let (less, index, greater) = range.bisect() {
 			let leftColor: RBTreeColor = (less.count > greater.count) ? .Red : .Black
 			let rightColor: RBTreeColor = (less.count < greater.count) ? .Red : .Black

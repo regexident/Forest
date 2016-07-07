@@ -35,7 +35,7 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 	}
 	
 	private init(sortedArraySlice slice: ArraySlice<Element>) {
-		let range = Range(start: slice.startIndex, end: slice.endIndex)
+		let range = slice.startIndex..<slice.endIndex
 		if let (less, index, greater) = range.bisect() {
 			let left = (less.isEmpty) ? AVLTree() : AVLTree(sortedArraySlice: slice[less])
 			let right = (greater.isEmpty) ? AVLTree() : AVLTree(sortedArraySlice: slice[greater])

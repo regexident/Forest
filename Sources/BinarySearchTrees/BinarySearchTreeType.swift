@@ -7,7 +7,7 @@
 //
 
 public protocol BinarySearchTreeType : BinaryTreeType, ArrayLiteralConvertible {
-	typealias Element :	Comparable
+	associatedtype Element :	Comparable
 	
 	init<S: SequenceType where S.Generator.Element == Element>(sortedSequence: S)
 }

@@ -7,7 +7,7 @@
 //
 
 public protocol BinaryTreeType : SequenceType, CustomStringConvertible, CustomDebugStringConvertible, Equatable {
-	typealias Element
+	associatedtype Element
 	
 	init()
 	init(_ element: Element)
@@ -90,7 +90,7 @@ extension BinaryTreeType {
 
 	final public func generate() -> AnyGenerator<Element> {
 		var stack: [Self] = [self]
-		return anyGenerator { _ -> Element? in
+		return AnyGenerator { _ -> Element? in
 			var current = stack.removeLast()
 			while true {
 				if current.isNil {
