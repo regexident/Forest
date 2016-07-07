@@ -29,7 +29,6 @@
 		A48044A41B740FA5002452BA /* Quick.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A480449F1B740F79002452BA /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A48044A81B7429EA002452BA /* AVLTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A421BDA11A9CCB6F0032CF28 /* AVLTreeTests.swift */; };
 		A48044A91B7429EA002452BA /* RBTreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41B30AF1AE55DA100898A35 /* RBTreeTests.swift */; };
-		BFA5F5E41D22D52E001A9307 /* Universal.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BFA5F5E31D22D52E001A9307 /* Universal.xcconfig */; };
 		BFA5F60D1D22DB66001A9307 /* AVLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5F5F51D22DB66001A9307 /* AVLTree.swift */; };
 		BFA5F60E1D22DB66001A9307 /* BinarySearchTreeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5F5F61D22DB66001A9307 /* BinarySearchTreeType.swift */; };
 		BFA5F60F1D22DB66001A9307 /* GrowableBinarySearchTreeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5F5F71D22DB66001A9307 /* GrowableBinarySearchTreeType.swift */; };
@@ -426,7 +425,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFA5F5E41D22D52E001A9307 /* Universal.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
