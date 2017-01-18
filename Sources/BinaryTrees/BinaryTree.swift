@@ -9,38 +9,40 @@
 public enum BinaryTree<E: Comparable>: BinaryTreeType {
 	public typealias Element = E
 
-	case Leaf
-	indirect case Branch(BinaryTree, Element, BinaryTree)
+	case leaf
+	indirect case branch(BinaryTree, Element, BinaryTree)
 	
 	public init() {
-		self = .Leaf
+		self = .leaf
 	}
 	
 	public init(_ element: Element) {
-		self.init(.Leaf, element, .Leaf)
+		self.init(.leaf, element, .leaf)
 	}
 	
 	public init(_ left: BinaryTree, _ element: Element, _ right: BinaryTree) {
-		self = .Branch(left, element, right)
+		self = .branch(left, element, right)
 	}
 	
-	public func analysis<U>(@noescape branch: (BinaryTree, Element, BinaryTree) -> U, @noescape leaf: () -> U) -> U {
+	public func analysis<U>(_ branch: (BinaryTree, Element, BinaryTree) -> U, leaf: () -> U) -> U {
 		switch self {
-		case .Leaf:
+		case .leaf:
 			return leaf()
-		case let .Branch(left, element, right):
+		case let .branch(left, element, right):
 			return branch(left, element, right)
 		}
 	}
 }
 
-public func ==<E: Equatable>(lhs: BinaryTree<E>, rhs: BinaryTree<E>) -> Bool {
-	switch (lhs, rhs) {
-	case let (.Branch(l1, e1, r1), .Branch(l2, e2, r2)):
-		return (e1 == e2) && (l1 == l2) && (r1 == r2)
-	case (.Leaf, .Leaf):
-		return true
-	default:
-		return false
-	}
+extension BinaryTree : Equatable {
+    public static func ==<E: Equatable>(lhs: BinaryTree<E>, rhs: BinaryTree<E>) -> Bool {
+        switch (lhs, rhs) {
+        case let (.branch(l1, e1, r1), .branch(l2, e2, r2)):
+            return (e1 == e2) && (l1 == l2) && (r1 == r2)
+        case (.leaf, .leaf):
+            return true
+        default:
+            return false
+        }
+    }
 }

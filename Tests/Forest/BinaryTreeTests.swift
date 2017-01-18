@@ -13,7 +13,7 @@ import Forest
 
 class BinaryTreeTests: QuickSpec {
 	
-	static func assembleBinaryTree(array: [NSObject]) -> BinaryTree<Int> {
+	static func assembleBinaryTree(_ array: [Any]) -> BinaryTree<Int> {
 		typealias Tree = BinaryTree<Int>
 		let tree: Tree
 		switch array.count {
@@ -23,17 +23,17 @@ class BinaryTreeTests: QuickSpec {
 		case 2:
 			if array[0] is Int {
 				let element = array[0] as! Int
-				let right = assembleBinaryTree(array[1] as! [NSObject])
+				let right = assembleBinaryTree(array[1] as! [Any])
 				tree = Tree(Tree(), element, right)
 			} else {
-				let left = assembleBinaryTree(array[0] as! [NSObject])
+				let left = assembleBinaryTree(array[0] as! [Any])
 				let element = array[1] as! Int
 				tree = Tree(left, element, Tree())
 			}
 		case 3:
-			let left = assembleBinaryTree(array[0] as! [NSObject])
+			let left = assembleBinaryTree(array[0] as! [Any])
 			let element = array[1] as! Int
-			let right = assembleBinaryTree(array[2] as! [NSObject])
+			let right = assembleBinaryTree(array[2] as! [Any])
 			tree = Tree(left, element, right)
 		default:
 			tree = Tree()

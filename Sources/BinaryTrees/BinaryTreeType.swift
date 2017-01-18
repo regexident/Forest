@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Vincent Esche. All rights reserved.
 //
 
-public protocol BinaryTreeType : SequenceType, CustomStringConvertible, CustomDebugStringConvertible, Equatable {
+public protocol BinaryTreeType : CustomStringConvertible, CustomDebugStringConvertible, Equatable {
 	associatedtype Element
 	
 	init()
 	init(_ element: Element)
-	
-	func analysis<U>(@noescape branch: (Self, Element, Self) -> U, @noescape leaf: () -> U) -> U
+
+	func analysis<U>(_ branch: (Self, Element, Self) -> U, leaf: () -> U) -> U
 }
 
 extension BinaryTreeType {
@@ -42,7 +42,7 @@ extension BinaryTreeType {
 
 	final public var height: Int8 {
 		return analysis({ l, _, r in
-			max(l.height, r.height) + 1
+			Swift.max(l.height, r.height) + 1
 		}, leaf: {
 			0
 		})
@@ -88,9 +88,9 @@ extension BinaryTreeType {
 		return Self()
 	}
 
-	final public func generate() -> AnyGenerator<Element> {
+	final public func generate() -> AnyIterator<Element> {
 		var stack: [Self] = [self]
-		return AnyGenerator { _ -> Element? in
+		return AnyIterator { _ -> Element? in
 			var current = stack.removeLast()
 			while true {
 				if current.isNil {
@@ -114,7 +114,7 @@ extension BinaryTreeType {
 		}
 	}
 	
-	final public func traverseLeftwards(@noescape closure: (Self) -> ()) -> Self {
+	final public func traverseLeftwards(_ closure: (Self) -> ()) -> Self {
 		closure(self)
 		return analysis({ l, _, _ in
 			l.traverseLeftwards(closure)
@@ -123,7 +123,7 @@ extension BinaryTreeType {
 		})
 	}
 	
-	final public func traverseRightwards(@noescape closure: (Self) -> ()) -> Self {
+	final public func traverseRightwards(_ closure: (Self) -> ()) -> Self {
 		closure(self)
 		return analysis({ _, _, r in
 			r.traverseRightwards(closure)
@@ -134,7 +134,7 @@ extension BinaryTreeType {
 
 	final public func leftmostBranch() -> Self {
 		var node = self
-		traverseLeftwards {
+		let _ = traverseLeftwards {
 			if !$0.isNil {
 				node = $0
 			}
@@ -144,7 +144,7 @@ extension BinaryTreeType {
 	
 	final public func rightmostBranch() -> Self {
 		var node = self
-		traverseRightwards {
+		let _ = traverseRightwards {
 			if !$0.isNil {
 				node = $0
 			}
@@ -152,20 +152,20 @@ extension BinaryTreeType {
 		return node
 	}
 
-	final public func recursiveDescription(closure: Self -> String?) -> String {
+	final public func recursiveDescription(_ closure: @escaping (Self) -> String?) -> String {
 		return self.recursiveDescription("", flag: false, closure: closure)
 	}
 	
-	final private func recursiveDescription(string: String, flag: Bool, closure: Self -> String?) -> String {
+	final fileprivate func recursiveDescription(_ string: String, flag: Bool, closure: @escaping (Self) -> String?) -> String {
 		var recursiveDescription : ((Self, String, Bool) -> String)! = nil
 		recursiveDescription = { node, prefix, isTail in
 			var string = ""
 			if let element = closure(node) {
-				if let right = node.right where right.analysis({ _, _, _ in true }, leaf: { closure(right) != nil }) {
+				if let right = node.right, right.analysis({ _, _, _ in true }, leaf: { closure(right) != nil }) {
 					string += recursiveDescription(right, prefix + ((isTail) ? "│  " : "   "), false)
 				}
 				string += prefix + ((isTail) ? "└─ " : "┌─ ") + "\(element)\n"
-				if let left = node.left where left.analysis({ _, _, _ in true }, leaf: { closure(left) != nil }) {
+				if let left = node.left, left.analysis({ _, _, _ in true }, leaf: { closure(left) != nil }) {
 					string += recursiveDescription(left, prefix + ((isTail) ? "   " : "│  "), true)
 				}
 			}

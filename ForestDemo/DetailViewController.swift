@@ -28,10 +28,10 @@ class DetailViewController: UIViewController {
 			viewController.view.frame = self.view.bounds
 			self.view.addSubview(viewController.view)
 			
-			self.view.addConstraint(NSLayoutConstraint(item: viewController.view, attribute: NSLayoutAttribute.Top, relatedBy: .Equal, toItem: self.topLayoutGuide, attribute: NSLayoutAttribute.Bottom, multiplier: 1.0, constant: 0.0))
-			self.view.addConstraint(NSLayoutConstraint(item: viewController.view, attribute: NSLayoutAttribute.Bottom, relatedBy: .Equal, toItem: self.bottomLayoutGuide, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: 0.0))
-			self.view.addConstraint(NSLayoutConstraint(item: viewController.view, attribute: NSLayoutAttribute.Left, relatedBy: .Equal, toItem: self.view, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: 0.0))
-			self.view.addConstraint(NSLayoutConstraint(item: viewController.view, attribute: NSLayoutAttribute.Right, relatedBy: .Equal, toItem: self.view, attribute: NSLayoutAttribute.Right, multiplier: 1.0, constant: 0.0))
+			self.view.addConstraint(NSLayoutConstraint(item: viewController.view, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: self.topLayoutGuide, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0))
+			self.view.addConstraint(NSLayoutConstraint(item: viewController.view, attribute: NSLayoutAttribute.bottom, relatedBy: .equal, toItem: self.bottomLayoutGuide, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0))
+			self.view.addConstraint(NSLayoutConstraint(item: viewController.view, attribute: NSLayoutAttribute.left, relatedBy: .equal, toItem: self.view, attribute: NSLayoutAttribute.left, multiplier: 1.0, constant: 0.0))
+			self.view.addConstraint(NSLayoutConstraint(item: viewController.view, attribute: NSLayoutAttribute.right, relatedBy: .equal, toItem: self.view, attribute: NSLayoutAttribute.right, multiplier: 1.0, constant: 0.0))
 		}
 	}
 

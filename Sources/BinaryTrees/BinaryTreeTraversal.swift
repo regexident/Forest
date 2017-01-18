@@ -15,7 +15,7 @@ public struct BinaryTreeTraversal<T: BinaryTreeType> {
 		self.skipLeafs = skipLeafs
 	}
 	
-	public func preorder(tree: Tree, @noescape closure: (Tree) -> ()) {
+	public func preorder(_ tree: Tree, closure: @escaping (Tree) -> ()) {
 		tree.analysis({ (l, e, r) -> Void in
 			closure(tree)
 			self.preorder(l, closure: closure)
@@ -27,7 +27,7 @@ public struct BinaryTreeTraversal<T: BinaryTreeType> {
 		})
 	}
 	
-	public func inorder(tree: Tree, @noescape closure: (Tree) -> ()) {
+	public func inorder(_ tree: Tree, closure: @escaping (Tree) -> ()) {
 		tree.analysis({ (l, e, r) -> Void in
 			self.inorder(l, closure: closure)
 			closure(tree)
@@ -39,7 +39,7 @@ public struct BinaryTreeTraversal<T: BinaryTreeType> {
 		})
 	}
 	
-	public func postorder(tree: Tree, @noescape closure: (Tree) -> ()) {
+	public func postorder(_ tree: Tree, closure: @escaping (Tree) -> ()) {
 		tree.analysis({ (l, e, r) -> Void in
 			self.postorder(l, closure: closure)
 			self.postorder(r, closure: closure)

@@ -37,32 +37,32 @@ struct BinarySearchTreeRandomSource: BinarySearchTreeBenchmarkSource {
 
 struct BinarySearchTreeBenchmarkDelegate {
 	let labels: [UILabel]
-	func update(partial: Int, string: String) {
-		dispatch_async(dispatch_get_main_queue()) {
+	func update(_ partial: Int, string: String) {
+		DispatchQueue.main.async {
 			self.labels[partial].text = string
 		}
 	}
-	func progress(partial: Int, current: Int, total: Int) {
-		dispatch_async(dispatch_get_main_queue()) {
+	func progress(_ partial: Int, current: Int, total: Int) {
+		DispatchQueue.main.async {
 			self.labels[partial].text = "\(current) / \(total)"
 		}
 	}
-	func done(partial: Int, total: Int, seconds: NSTimeInterval) {
-		dispatch_async(dispatch_get_main_queue()) {
+	func done(_ partial: Int, total: Int, seconds: TimeInterval) {
+		DispatchQueue.main.async {
 			self.labels[partial].text = String(format: "%d in %.2f seconds", total, seconds)
 		}
 	}
 }
 
 protocol BinarySearchTreeBenchmarkType {
-	func run(total: Int, delegate: BinarySearchTreeBenchmarkDelegate)
+	func run(_ total: Int, delegate: BinarySearchTreeBenchmarkDelegate)
 }
 
 struct BinarySearchTreeBenchmark {
 	let title: String
 	let partials: [String]
 	
-	func run<T: MutableBinarySearchTreeType where T.Element == Int>(tree: T, total: Int, source: BinarySearchTreeBenchmarkSource, delegate: BinarySearchTreeBenchmarkDelegate) {
+	func run<T: MutableBinarySearchTreeType>(_ tree: T, total: Int, source: BinarySearchTreeBenchmarkSource, delegate: BinarySearchTreeBenchmarkDelegate) where T.Element == Int {
 		delegate.update(0, string: "Preparing Sequence")
         var tree = tree
         var source = source
@@ -71,36 +71,36 @@ struct BinarySearchTreeBenchmark {
 			sequence.append(source.next())
 		}
 		delegate.update(0, string: "Initializing…")
-		let initialize = NSDate.timeIntervalSinceReferenceDate()
+		let initialize = Date.timeIntervalSinceReferenceDate
 		tree = (source.isSorted) ? T(sortedSequence: sequence) : T(sequence: sequence)
-		delegate.done(0, total: total, seconds: NSDate.timeIntervalSinceReferenceDate() - initialize)
+		delegate.done(0, total: total, seconds: Date.timeIntervalSinceReferenceDate - initialize)
 		
 		tree = T()
-		let insert = NSDate.timeIntervalSinceReferenceDate()
+		let insert = Date.timeIntervalSinceReferenceDate
 		for i in 1...total {
 			if i % 1000 == 0 {
 				delegate.progress(1, current: i, total: total)
 			}
-			tree.insertInPlace(source.next())
+			let _ = tree.insertInPlace(source.next())
 		}
-		delegate.done(1, total: total, seconds: NSDate.timeIntervalSinceReferenceDate() - insert)
+		delegate.done(1, total: total, seconds: Date.timeIntervalSinceReferenceDate - insert)
 		
-		let search = NSDate.timeIntervalSinceReferenceDate()
+		let search = Date.timeIntervalSinceReferenceDate
 		for i in 1...total {
 			if i % 1000 == 0 {
 				delegate.progress(2, current: i, total: total)
 			}
-			tree.contains(source.next())
+			let _ = tree.contains(source.next())
 		}
-		delegate.done(2, total: total, seconds: NSDate.timeIntervalSinceReferenceDate() - search)
+		delegate.done(2, total: total, seconds: Date.timeIntervalSinceReferenceDate - search)
 		
-		let remove = NSDate.timeIntervalSinceReferenceDate()
+		let remove = Date.timeIntervalSinceReferenceDate
 		for i in 1...total {
 			if i % 1000 == 0 {
 				delegate.progress(3, current: i, total: total)
 			}
-			tree.removeInPlace(source.next())
+			let _ = tree.removeInPlace(source.next())
 		}
-		delegate.done(3, total: total, seconds: NSDate.timeIntervalSinceReferenceDate() - remove)
+		delegate.done(3, total: total, seconds: Date.timeIntervalSinceReferenceDate - remove)
 	}
 }

@@ -10,7 +10,7 @@ import UIKit
 
 import Forest
 
-class BinarySearchTreeViewController<T: MutableBinarySearchTreeType where T.Element == Int>: UITableViewController {
+class BinarySearchTreeViewController<T: MutableBinarySearchTreeType>: UITableViewController where T.Element == Int {
 	
 	typealias Tree = T
 	
@@ -22,13 +22,13 @@ class BinarySearchTreeViewController<T: MutableBinarySearchTreeType where T.Elem
 		BinarySearchTreeBenchmark(title: "Random Sequence", partials: ["Initialize", "Insert", "Search", "Remove"])
 	]
 	
-	let queue = NSOperationQueue()
+	let queue = OperationQueue()
 	
 	convenience init() {
 		self.init(nibName: nil, bundle: nil)
 	}
 	
-	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: "BinarySearchTreeViewController", bundle: nil)
 	}
 	
@@ -36,17 +36,17 @@ class BinarySearchTreeViewController<T: MutableBinarySearchTreeType where T.Elem
 	    super.init(coder: coder)
 	}
 
-	@IBAction func startBenchmarks(sender: UIButton) {
-		dispatch_async(dispatch_get_main_queue()) {
-			self.benchmarkButton.enabled = false
+	@IBAction func startBenchmarks(_ sender: UIButton) {
+		DispatchQueue.main.async {
+			self.benchmarkButton.isEnabled = false
 		}
-		var previousOperation: NSBlockOperation?
-		for (section, benchmark) in self.benchmarks.enumerate() {
+		var previousOperation: BlockOperation?
+		for (section, benchmark) in self.benchmarks.enumerated() {
 			let labels = (0..<benchmark.partials.count).map { (index: Int) -> UILabel in
-				let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index, inSection: section))!
+				let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: section))!
 				return cell.detailTextLabel!
 			}
-			let operation = NSBlockOperation() {
+			let operation = BlockOperation() {
 				let tree = Tree()
 				let total = 100_000
 				let delegate = BinarySearchTreeBenchmarkDelegate(labels: labels)
@@ -62,9 +62,9 @@ class BinarySearchTreeViewController<T: MutableBinarySearchTreeType where T.Elem
 			previousOperation = operation
 			self.queue.addOperation(operation)
 		}
-		let operation = NSBlockOperation() {
-			dispatch_async(dispatch_get_main_queue()) {
-				self.benchmarkButton.enabled = true
+		let operation = BlockOperation() {
+			DispatchQueue.main.async {
+				self.benchmarkButton.isEnabled = true
 			}
 		}
 		if let dependency = previousOperation {
@@ -80,24 +80,24 @@ class BinarySearchTreeViewController<T: MutableBinarySearchTreeType where T.Elem
 		
 		self.tableView.tableHeaderView = self.headerView
 		
-		self.tableView.registerNib(UINib(nibName: "BenchmarkCell", bundle: nil), forCellReuseIdentifier: "Cell")
+		self.tableView.register(UINib(nibName: "BenchmarkCell", bundle: nil), forCellReuseIdentifier: "Cell")
     }
  
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return self.benchmarks.count
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return self.benchmarks[section].partials.count
 	}
 
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		let benchmarkSection = self.benchmarks[section]
 		return benchmarkSection.title
 	}
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
 		
 		let benchmark = self.benchmarks[indexPath.section]
 		let partial = benchmark.partials[indexPath.row]
@@ -107,7 +107,7 @@ class BinarySearchTreeViewController<T: MutableBinarySearchTreeType where T.Elem
 		return cell
 	}
 	
-	override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+	override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
 		return false
 	}
 }

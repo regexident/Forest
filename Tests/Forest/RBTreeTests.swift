@@ -13,39 +13,39 @@ import Forest
 
 class RBTreeTests: BinaryTreeTests {
 	
-	static func assembleRBTree(array: [NSObject]) -> RBTree<Int> {
+	static func assembleRBTree(_ array: [Any]) -> RBTree<Int> {
 		typealias Tree = RBTree<Int>
 		switch assembleRBTreeSubTree(array) {
-		case let .Branch(l, e, r, _):
-			return Tree(l, e, r, .Black)
-		case .Leaf:
-			return .Leaf
+		case let .branch(l, e, r, _):
+			return Tree(l, e, r, .black)
+		case .leaf:
+			return .leaf
 		}
 	}
 	
-	static func assembleRBTreeSubTree(array: [NSObject]) -> RBTree<Int> {
+	static func assembleRBTreeSubTree(_ array: [Any]) -> RBTree<Int> {
 		typealias Tree = RBTree<Int>
 		
 		let tree: Tree
 		switch array.count {
 		case 1:
 			let element = array[0] as! Int
-			tree = Tree(Tree(), element, Tree(), .Red)
+			tree = Tree(Tree(), element, Tree(), .red)
 		case 2:
 			if array[0] is Int {
 				let element = array[0] as! Int
-				let right = assembleRBTreeSubTree(array[1] as! [NSObject])
-				tree = Tree(Tree(), element, right, .Red)
+				let right = assembleRBTreeSubTree(array[1] as! [Any])
+				tree = Tree(Tree(), element, right, .red)
 			} else {
-				let left = assembleRBTreeSubTree(array[0] as! [NSObject])
+				let left = assembleRBTreeSubTree(array[0] as! [Any])
 				let element = array[1] as! Int
-				tree = Tree(left, element, Tree(), .Red)
+				tree = Tree(left, element, Tree(), .red)
 			}
 		case 3:
-			let left = assembleRBTreeSubTree(array[0] as! [NSObject])
+			let left = assembleRBTreeSubTree(array[0] as! [Any])
 			let element = array[1] as! Int
-			let right = assembleRBTreeSubTree(array[2] as! [NSObject])
-			tree = Tree(left, element, right, .Red)
+			let right = assembleRBTreeSubTree(array[2] as! [Any])
+			tree = Tree(left, element, right, .red)
 		default:
 			tree = Tree()
 		}
@@ -417,39 +417,39 @@ class RBTreeTests: BinaryTreeTests {
 		typealias Tree = RBTree<Int>
 		describe("Calling isValid()") {
 			context("on a valid tree") {
-				let rrr = Tree(Tree(), 15, Tree(), .Red)
-				let lrl = Tree(Tree(), 4, Tree(), .Red)
+				let rrr = Tree(Tree(), 15, Tree(), .red)
+				let lrl = Tree(Tree(), 4, Tree(), .red)
 				
-				let rl = Tree(Tree(), 8, Tree(), .Black)
-				let rr = Tree(Tree(), 14, rrr, .Black)
+				let rl = Tree(Tree(), 8, Tree(), .black)
+				let rr = Tree(Tree(), 14, rrr, .black)
 				
-				let ll = Tree(Tree(), 1, Tree(), .Black)
-				let lr = Tree(lrl, 5, Tree(), .Black)
+				let ll = Tree(Tree(), 1, Tree(), .black)
+				let lr = Tree(lrl, 5, Tree(), .black)
 				
-				let l = Tree(ll, 2, lr, .Red)
-				let r = Tree(rl, 11, rr, .Red)
+				let l = Tree(ll, 2, lr, .red)
+				let r = Tree(rl, 11, rr, .red)
 				
-				let tree = Tree(l, 7, r, .Black)
+				let tree = Tree(l, 7, r, .black)
 				
 				it("it returns true") {
 					expect(tree.isValid()).to(beTrue())
 				}
 			}
 			context("on an invalid tree") {
-				let lrll = Tree(Tree(), 4, Tree(), .Black)
+				let lrll = Tree(Tree(), 4, Tree(), .black)
 				
-				let lrl = Tree(lrll, 5, Tree(), .Red)
-				let lrr = Tree(Tree(), 8, Tree(), .Red)
+				let lrl = Tree(lrll, 5, Tree(), .red)
+				let lrr = Tree(Tree(), 8, Tree(), .red)
 				
-				let ll = Tree(Tree(), 1, Tree(), .Black)
-				let lr = Tree(lrl, 7, lrr, .Black)
+				let ll = Tree(Tree(), 1, Tree(), .black)
+				let lr = Tree(lrl, 7, lrr, .black)
 
-				let rr = Tree(Tree(), 15, Tree(), .Red)
+				let rr = Tree(Tree(), 15, Tree(), .red)
 				
-				let l = Tree(ll, 2, lr, .Red)
-				let r = Tree(Tree(), 14, rr, .Black)
+				let l = Tree(ll, 2, lr, .red)
+				let r = Tree(Tree(), 14, rr, .black)
 
-				let tree = Tree(l, 11, r, .Black)
+				let tree = Tree(l, 11, r, .black)
 //				debugPrint(tree)
 				
 				it("it returns false") {

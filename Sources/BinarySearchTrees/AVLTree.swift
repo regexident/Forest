@@ -9,32 +9,32 @@
 public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 	
 	public typealias Element = E
-		
-	case Leaf
-	indirect case Branch(AVLTree, Element, AVLTree, Int8)
+    
+	case leaf
+	indirect case branch(AVLTree, Element, AVLTree, Int8)
  	
 	public var height: Int8 {
 		return extendedAnalysis({ _, _, _, h in h }, leaf: { 0 })
 	}
 	
 	public init() {
-		self = .Leaf
+		self = .leaf
 	}
 	
 	public init(_ element: Element) {
-		self.init(.Leaf, element, .Leaf)
+		self.init(.leaf, element, .leaf)
 	}
 	
 	public init(_ left: AVLTree, _ element: Element, _ right: AVLTree) {
-		let height = max(left.height, right.height) + 1
-		self = .Branch(left, element, right, height)
+		let height = Swift.max(left.height, right.height) + 1
+		self = .branch(left, element, right, height)
 	}
 
-	public init<S: SequenceType where S.Generator.Element == Element>(sortedSequence: S) {
+	public init<S: Sequence>(sortedSequence: S) where S.Iterator.Element == Element {
 		self = AVLTree(sortedArraySlice: ArraySlice(sortedSequence))
 	}
 	
-	private init(sortedArraySlice slice: ArraySlice<Element>) {
+	fileprivate init(sortedArraySlice slice: ArraySlice<Element>) {
 		let range = slice.startIndex..<slice.endIndex
 		if let (less, index, greater) = range.bisect() {
 			let left = (less.isEmpty) ? AVLTree() : AVLTree(sortedArraySlice: slice[less])
@@ -45,7 +45,7 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 		}
 	}
 	
-	public func insertAndReturnExisting(element: Element) -> (AVLTree, Element?) {
+	public func insertAndReturnExisting(_ element: Element) -> (AVLTree, Element?) {
 		return analysis({ l, e, r in
 			if element < e {
 				let (subtree, inserted) = l.insertAndReturnExisting(element)
@@ -57,11 +57,11 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 				return (AVLTree(l, element, r), e)
 			}
 		}, leaf: {
-			(AVLTree(.Leaf, element, .Leaf), nil)
+			(AVLTree(.leaf, element, .leaf), nil)
 		})
 	}
 	
-	public func removeAndReturnExisting(element: Element) -> (AVLTree, Element?) {
+	public func removeAndReturnExisting(_ element: Element) -> (AVLTree, Element?) {
 		return analysis({ l, e, r in
 			if element < e {
 				let (subtree, removed) = l.removeAndReturnExisting(element)
@@ -79,51 +79,51 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 	
 	public func remove() -> (AVLTree, Element?) {
 		switch self {
-		case .Leaf:
+		case .leaf:
 			return (self, nil)
-		case let .Branch(.Leaf, e, .Leaf, _):
-			return (.Leaf, e)
-		case let .Branch(.Leaf, e, r, _):
+		case let .branch(.leaf, e, .leaf, _):
+			return (.leaf, e)
+		case let .branch(.leaf, e, r, _):
 			return (r, e)
-		case let .Branch(l, e, .Leaf, _):
+		case let .branch(l, e, .leaf, _):
 			return (l, e)
-		case let .Branch(l, e, r, _):
+		case let .branch(l, e, r, _):
 			let leftMax = l.rightmostBranch()
 			let subtree = l.remove(leftMax.element!)
 			return (AVLTree(subtree, leftMax.element!, r), e)
 		}
 	}
 
-	public func rebalance(tolerance: Int = 1) -> AVLTree {
+	public func rebalance(_ tolerance: Int = 1) -> AVLTree {
 		let t = tolerance // inbalance tolerance
 		switch self {
-		case let .Branch(.Branch(.Branch(ll, le, lr, llh), e, rl, lh), re, rr, _) where (lh > rr.height + t) && (llh > rl.height + t):
+		case let .branch(.branch(.branch(ll, le, lr, llh), e, rl, lh), re, rr, _) where (lh > rr.height + t) && (llh > rl.height + t):
 			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr)) // right rotation
-		case let .Branch(ll, le, .Branch(lr, e, .Branch(rl, re, rr, rrh), rh), _) where (rh > ll.height + t) && (rrh > lr.height + t):
+		case let .branch(ll, le, .branch(lr, e, .branch(rl, re, rr, rrh), rh), _) where (rh > ll.height + t) && (rrh > lr.height + t):
 			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr)) // left rotation
-		case let .Branch(.Branch(ll, le, .Branch(lr, e, rl, lrh), lh), re, rr, _) where (lh > rr.height + t) && (lrh > ll.height + t):
+		case let .branch(.branch(ll, le, .branch(lr, e, rl, lrh), lh), re, rr, _) where (lh > rr.height + t) && (lrh > ll.height + t):
 			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr)) // right left rotation
-		case let .Branch(ll, le, .Branch(.Branch(lr, e, rl, rlh), re, rr, rh), _) where (rh > ll.height + t) && (rlh > rr.height + t):
+		case let .branch(ll, le, .branch(.branch(lr, e, rl, rlh), re, rr, rh), _) where (rh > ll.height + t) && (rlh > rr.height + t):
 			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr)) // left right rotation
 		default:
 			return self
 		}
 	}
 	
-	public func analysis<U>(@noescape branch: (AVLTree, Element, AVLTree) -> U, @noescape leaf: () -> U) -> U {
+	public func analysis<U>(_ branch: (AVLTree, Element, AVLTree) -> U, leaf: () -> U) -> U {
 		switch self {
-		case let .Branch(l, e, r, _):
+		case let .branch(l, e, r, _):
 			return branch(l, e, r)
-		case .Leaf:
+		case .leaf:
 			return leaf()
 		}
 	}
 	
-	public func extendedAnalysis<U>(@noescape branch: (AVLTree, Element, AVLTree, Int8) -> U, @noescape leaf: () -> U) -> U {
+	public func extendedAnalysis<U>(_ branch: (AVLTree, Element, AVLTree, Int8) -> U, leaf: () -> U) -> U {
 		switch self {
-		case let .Branch(l, e, r, h):
+		case let .branch(l, e, r, h):
 			return branch(l, e, r, h)
-		case .Leaf:
+		case .leaf:
 			return leaf()
 		}
 	}
@@ -141,13 +141,15 @@ extension AVLTree {
 	}
 }
 
-public func ==<E: Equatable>(lhs: AVLTree<E>, rhs: AVLTree<E>) -> Bool {
-	switch (lhs, rhs) {
-	case let (.Branch(l1, e1, r1, h1), .Branch(l2, e2, r2, h2)):
-		return (h1 == h2) && (e1 == e2) && (l1 == l2) && (r1 == r2)
-	case (.Leaf, .Leaf):
-		return true
-	default:
-		return false
-	}
+extension AVLTree {
+    public static func ==<E: Equatable>(lhs: AVLTree<E>, rhs: AVLTree<E>) -> Bool {
+        switch (lhs, rhs) {
+        case let (.branch(l1, e1, r1, h1), .branch(l2, e2, r2, h2)):
+            return (h1 == h2) && (e1 == e2) && (l1 == l2) && (r1 == r2)
+        case (.leaf, .leaf):
+            return true
+        default:
+            return false
+        }
+    }
 }

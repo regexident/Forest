@@ -13,7 +13,7 @@ import Forest
 
 class AVLTreeTests: BinaryTreeTests {
 
-	static func assembleAVLTree(array: [NSObject]) -> AVLTree<Int> {
+	static func assembleAVLTree(_ array: [Any]) -> AVLTree<Int> {
 		typealias Tree = AVLTree<Int>
 		
 		let tree: Tree
@@ -24,17 +24,17 @@ class AVLTreeTests: BinaryTreeTests {
 		case 2:
 			if array[0] is Int {
 				let element = array[0] as! Int
-				let right = assembleAVLTree(array[1] as! [NSObject])
+				let right = assembleAVLTree(array[1] as! [Any])
 				tree = Tree(Tree(), element, right)
 			} else {
-				let left = assembleAVLTree(array[0] as! [NSObject])
+				let left = assembleAVLTree(array[0] as! [Any])
 				let element = array[1] as! Int
 				tree = Tree(left, element, Tree())
 			}
 		case 3:
-			let left = assembleAVLTree(array[0] as! [NSObject])
+			let left = assembleAVLTree(array[0] as! [Any])
 			let element = array[1] as! Int
-			let right = assembleAVLTree(array[2] as! [NSObject])
+			let right = assembleAVLTree(array[2] as! [Any])
 			tree = Tree(left, element, right)
 		default:
 			tree = Tree()

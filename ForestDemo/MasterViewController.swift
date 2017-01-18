@@ -35,19 +35,19 @@ class MasterViewController: UITableViewController {
 		}
 	}
 
-	override func viewWillAppear(animated: Bool) {
-		self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed
+	override func viewWillAppear(_ animated: Bool) {
+		self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
 		super.viewWillAppear(animated)
 	}
 
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == "showDetail" {
 		    if let indexPath = self.tableView.indexPathForSelectedRow {
 				let treeDemoSection = self.treeDemoSections[indexPath.section]
 				let treeDemo = treeDemoSection.demos[indexPath.row]
-		        let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+		        let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
 		        controller.detailItem = treeDemo
-		        controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+		        controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
 		        controller.navigationItem.leftItemsSupplementBackButton = true
 		    }
 		}
@@ -55,29 +55,29 @@ class MasterViewController: UITableViewController {
 }
 
 extension MasterViewController {
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return self.treeDemoSections.count
 	}
 
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return self.treeDemoSections[section].demos.count
 	}
 }
 
 extension MasterViewController {
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		let treeDemoSection = self.treeDemoSections[section]
 		return treeDemoSection.title
 	}
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
 
 		let treeDemoSection = self.treeDemoSections[indexPath.section]
 		let treeDemo = treeDemoSection.demos[indexPath.row]
 		
-		cell.separatorInset = UIEdgeInsetsZero
+		cell.separatorInset = UIEdgeInsets.zero
 		cell.textLabel!.text = treeDemo.title
 		return cell
 	}
