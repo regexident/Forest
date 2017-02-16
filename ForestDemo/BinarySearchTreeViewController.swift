@@ -15,12 +15,18 @@ class BinarySearchTreeViewController<T: MutableBinarySearchTreeType>: UITableVie
 	typealias Tree = T
 	
 	@IBOutlet var headerView: UIView!
-	@IBOutlet var benchmarkButton: UIButton!
+    @IBOutlet var benchmarkButton: UIButton!
 	
-	let benchmarks = [
-		BinarySearchTreeBenchmark(title: "Sorted Sequence", partials: ["Initialize", "Insert", "Search", "Remove"]),
-		BinarySearchTreeBenchmark(title: "Random Sequence", partials: ["Initialize", "Insert", "Search", "Remove"])
-	]
+    let benchmarks = [
+        BinarySearchTreeBenchmark(
+            title: "Sorted Sequence",
+            partials: ["Initialize", "Insert", "Search", "Remove"]
+        ),
+        BinarySearchTreeBenchmark(
+            title: "Random Sequence",
+            partials: ["Initialize", "Insert", "Search", "Remove"]
+        )
+    ]
 	
 	let queue = OperationQueue()
 	

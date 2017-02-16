@@ -17,7 +17,7 @@ class BinaryTreeTests: QuickSpec {
 		typealias Tree = BinaryTree<Int>
 		let tree: Tree
 		switch array.count {
-		case 1:
+        case 1:
 			let element = array[0] as! Int
 			tree = Tree(Tree(), element, Tree())
 		case 2:

@@ -14,7 +14,7 @@ struct TreeDemo {
 }
 
 class BenchmarksCell: UITableViewCell {
-	@IBOutlet var titleLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel!
 	@IBOutlet var progressView: UIProgressView!
 	@IBOutlet var progressLabel: UILabel!
 }

@@ -14,7 +14,7 @@ public enum BinaryTree<E: Comparable>: BinaryTreeType {
 	
 	public init() {
 		self = .leaf
-	}
+    }
 	
 	public init(_ element: Element) {
 		self.init(.leaf, element, .leaf)

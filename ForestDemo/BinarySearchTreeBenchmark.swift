@@ -6,7 +6,7 @@
 //  Copyright © 2015 Vincent Esche. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 import Forest
 
@@ -35,25 +35,6 @@ struct BinarySearchTreeRandomSource: BinarySearchTreeBenchmarkSource {
 	}
 }
 
-struct BinarySearchTreeBenchmarkDelegate {
-	let labels: [UILabel]
-	func update(_ partial: Int, string: String) {
-		DispatchQueue.main.async {
-			self.labels[partial].text = string
-		}
-	}
-	func progress(_ partial: Int, current: Int, total: Int) {
-		DispatchQueue.main.async {
-			self.labels[partial].text = "\(current) / \(total)"
-		}
-	}
-	func done(_ partial: Int, total: Int, seconds: TimeInterval) {
-		DispatchQueue.main.async {
-			self.labels[partial].text = String(format: "%d in %.2f seconds", total, seconds)
-		}
-	}
-}
-
 protocol BinarySearchTreeBenchmarkType {
 	func run(_ total: Int, delegate: BinarySearchTreeBenchmarkDelegate)
 }
@@ -61,8 +42,13 @@ protocol BinarySearchTreeBenchmarkType {
 struct BinarySearchTreeBenchmark {
 	let title: String
 	let partials: [String]
-	
-	func run<T: MutableBinarySearchTreeType>(_ tree: T, total: Int, source: BinarySearchTreeBenchmarkSource, delegate: BinarySearchTreeBenchmarkDelegate) where T.Element == Int {
+    
+	func run<T: MutableBinarySearchTreeType>(
+        _ tree: T,
+        total: Int,
+        source: BinarySearchTreeBenchmarkSource,
+        delegate: BinarySearchTreeBenchmarkDelegate
+    ) where T.Element == Int {
 		delegate.update(0, string: "Preparing Sequence")
         var tree = tree
         var source = source

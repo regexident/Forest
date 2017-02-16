@@ -11,7 +11,7 @@ public struct BinaryTreeTraversal<T: BinaryTreeType> {
 	
 	public let skipLeafs: Bool
 	
-	public init(skipLeafs: Bool = true) {
+    public init(skipLeafs: Bool = true) {
 		self.skipLeafs = skipLeafs
 	}
 	

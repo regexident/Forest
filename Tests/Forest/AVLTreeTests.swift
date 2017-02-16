@@ -358,7 +358,7 @@ class AVLTreeTests: BinaryTreeTests {
 				it("it matches expected shape") {
 					expect(tree).to(equal(treeAfter))
 				}
-			}
+            }
 			context("for a tree's branch with one child") {
 				let treeBefore = AVLTreeTests.assembleAVLTree([ [ 1 ], 2, [ [ 3 ], 4 ] ])
 //				   ┌─ 4

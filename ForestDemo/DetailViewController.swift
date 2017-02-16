@@ -11,7 +11,7 @@ import UIKit
 class DetailViewController: UIViewController {
 
 	var detailItem: TreeDemo! {
-		didSet {
+        didSet {
 			// Update the view.
 			self.configureView()
 		}

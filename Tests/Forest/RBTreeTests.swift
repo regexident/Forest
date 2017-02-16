@@ -16,7 +16,7 @@ class RBTreeTests: BinaryTreeTests {
 	static func assembleRBTree(_ array: [Any]) -> RBTree<Int> {
 		typealias Tree = RBTree<Int>
 		switch assembleRBTreeSubTree(array) {
-		case let .branch(l, e, r, _):
+        case let .branch(l, e, r, _):
 			return Tree(l, e, r, .black)
 		case .leaf:
 			return .leaf

@@ -89,7 +89,7 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 			return (l, e)
 		case let .branch(l, e, r, _):
 			let leftMax = l.rightmostBranch()
-			let subtree = l.remove(leftMax.element!)
+            let subtree = l.remove(leftMax.element!)
 			return (AVLTree(subtree, leftMax.element!, r), e)
 		}
 	}
@@ -98,13 +98,17 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 		let t = tolerance // inbalance tolerance
 		switch self {
 		case let .branch(.branch(.branch(ll, le, lr, llh), e, rl, lh), re, rr, _) where (lh > rr.height + t) && (llh > rl.height + t):
-			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr)) // right rotation
+            // right rotation:
+			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr))
 		case let .branch(ll, le, .branch(lr, e, .branch(rl, re, rr, rrh), rh), _) where (rh > ll.height + t) && (rrh > lr.height + t):
-			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr)) // left rotation
+            // left rotation:
+			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr))
 		case let .branch(.branch(ll, le, .branch(lr, e, rl, lrh), lh), re, rr, _) where (lh > rr.height + t) && (lrh > ll.height + t):
-			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr)) // right left rotation
+            // right left rotation:
+			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr))
 		case let .branch(ll, le, .branch(.branch(lr, e, rl, rlh), re, rr, rh), _) where (rh > ll.height + t) && (rlh > rr.height + t):
-			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr)) // left right rotation
+            // left right rotation:
+			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr))
 		default:
 			return self
 		}

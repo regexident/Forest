@@ -144,7 +144,7 @@ extension BinaryTreeType {
 	
 	final public func rightmostBranch() -> Self {
 		var node = self
-		let _ = traverseRightwards {
+        let _ = traverseRightwards {
 			if !$0.isNil {
 				node = $0
 			}

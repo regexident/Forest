@@ -15,7 +15,7 @@ public enum RBTree<E: Comparable>: MutableBinarySearchTreeType {
 	public typealias Element = E
 	
 	case leaf
-	indirect case branch(RBTree, Element, RBTree, RBTreeColor)
+    indirect case branch(RBTree, Element, RBTree, RBTreeColor)
  
 	public var color: RBTreeColor {
 		return extendedAnalysis({ _, _, _, color in color }, leaf: { .black })
@@ -122,13 +122,17 @@ public enum RBTree<E: Comparable>: MutableBinarySearchTreeType {
 	public func rebalance() -> RBTree {
 		switch self {
 		case let .branch(.branch(.branch(ll, le, lr, .red), e, rl, .red), re, rr, .black):
-			return .branch(.branch(ll, le, lr, .black), e, .branch(rl, re, rr, .black), .red) // right rotation
+            // right rotation:
+			return .branch(.branch(ll, le, lr, .black), e, .branch(rl, re, rr, .black), .red)
 		case let .branch(ll, le, .branch(lr, e, .branch(rl, re, rr, .red), .red), .black):
-			return .branch(.branch(ll, le, lr, .black), e, .branch(rl, re, rr, .black), .red) // left rotation
+            // left rotation:
+			return .branch(.branch(ll, le, lr, .black), e, .branch(rl, re, rr, .black), .red)
 		case let .branch(.branch(ll, le, .branch(lr, e, rl, .red), .red), re, rr, .black):
-			return .branch(.branch(ll, le, lr, .black), e, .branch(rl, re, rr, .black), .red) // right left rotation
+            // right left rotation:
+			return .branch(.branch(ll, le, lr, .black), e, .branch(rl, re, rr, .black), .red)
 		case let .branch(ll, le, .branch(.branch(lr, e, rl, .red), re, rr, .red), .black):
-			return .branch(.branch(ll, le, lr, .black), e, .branch(rl, re, rr, .black), .red) // left right rotation
+            // left right rotation:
+			return .branch(.branch(ll, le, lr, .black), e, .branch(rl, re, rr, .black), .red)
 		default:
 			return self
 		}
