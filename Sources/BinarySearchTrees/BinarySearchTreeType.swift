@@ -13,8 +13,8 @@ public enum BinaryTreeStepType {
 }
 
 public protocol BinarySearchTreeType : BinaryTreeType, ExpressibleByArrayLiteral {
-	associatedtype Element :	Comparable
-	
+	associatedtype Element: Comparable
+
 	init<S: Sequence>(sortedSequence: S) where S.Iterator.Element == Element
 }
 

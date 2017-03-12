@@ -10,7 +10,6 @@ public protocol BinaryTreeType : CustomStringConvertible, CustomDebugStringConve
 	associatedtype Element
 	
 	init()
-	init(_ element: Element)
 
 	func analysis<U>(_ branch: (Self, Element, Self) -> U, leaf: () -> U) -> U
 }
