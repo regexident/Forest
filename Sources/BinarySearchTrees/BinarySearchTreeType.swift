@@ -30,22 +30,6 @@ extension BinarySearchTreeType {
 	final public mutating func clearInPlace() {
 		self = self.clear()
 	}
-
-	final public func searchFor(_ element: Element, closure: @escaping (Self, BinaryTreeStepType) -> ()) {
-		analysis({ l, e, r in
-			if element < e {
-				closure(l, .leftBranch)
-				return l.searchFor(element, closure: closure)
-			} else if element > e {
-				closure(r, .leftBranch)
-				return r.searchFor(element, closure: closure)
-			} else {
-				return
-			}
-		}, leaf: {
-			return
-		})
-	}
 	
 	final public func get(_ element: Element) -> Element? {
 		return analysis({ l, e, r in
