@@ -24,7 +24,7 @@ public enum BinaryTree<E: Comparable>: BinaryTreeType {
 		self = .branch(left, element, right)
 	}
 	
-	public func analysis<U>(_ branch: (BinaryTree, Element, BinaryTree) -> U, leaf: () -> U) -> U {
+	public func analysis<U>(branch: (BinaryTree, Element, BinaryTree) -> U, leaf: () -> U) -> U {
 		switch self {
 		case .leaf:
 			return leaf()

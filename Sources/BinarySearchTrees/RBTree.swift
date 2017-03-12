@@ -18,7 +18,7 @@ public enum RBTree<E: Comparable>: MutableBinarySearchTreeType {
     indirect case branch(RBTree, Element, RBTree, RBTreeColor)
  
 	public var color: RBTreeColor {
-		return extendedAnalysis({ _, _, _, color in color }, leaf: { .black })
+		return extendedAnalysis(branch: { _, _, _, color in color }, leaf: { .black })
 	}
 	
 	public init() {
@@ -61,7 +61,7 @@ public enum RBTree<E: Comparable>: MutableBinarySearchTreeType {
 	}
 	
 	fileprivate func insertInSubtreeAndReturnExisting(_ element: Element) -> (RBTree, Element?) {
-		return extendedAnalysis({ l, e, r, c in
+		return extendedAnalysis(branch: { l, e, r, c in
 			if element < e {
 				let (subtree, inserted) = l.insertInSubtreeAndReturnExisting(element)
 				return (RBTree(subtree, e, r, c).rebalance(), inserted)
@@ -87,7 +87,7 @@ public enum RBTree<E: Comparable>: MutableBinarySearchTreeType {
 	}
 	
 	fileprivate func removeFromSubtreeAndReturnExisting(_ element: Element) -> (RBTree, Element?) {
-		return extendedAnalysis({ l, e, r, c in
+		return extendedAnalysis(branch: { l, e, r, c in
 			if element < e {
 				let (subtree, removed) = l.removeFromSubtreeAndReturnExisting(element)
 				return (RBTree(subtree, e, r, c).rebalance(), removed)
@@ -139,7 +139,7 @@ public enum RBTree<E: Comparable>: MutableBinarySearchTreeType {
 	}
 	
 	public func isValid() -> Bool {
-		return extendedAnalysis({ _, _, _, color in
+		return extendedAnalysis(branch: { _, _, _, color in
 			return (color == .black) && self.checkSubtree().0
 		}, leaf: {
 			return true
@@ -168,7 +168,7 @@ public enum RBTree<E: Comparable>: MutableBinarySearchTreeType {
 		}
 	}
 	
-	public func analysis<U>(_ branch: (RBTree, Element, RBTree) -> U, leaf: () -> U) -> U {
+	public func analysis<U>(branch: (RBTree, Element, RBTree) -> U, leaf: () -> U) -> U {
 		switch self {
 		case let .branch(l, e, r, _):
 			return branch(l, e, r)
@@ -177,7 +177,7 @@ public enum RBTree<E: Comparable>: MutableBinarySearchTreeType {
 		}
 	}
 	
-	public func extendedAnalysis<U>(_ branch: (RBTree, Element, RBTree, RBTreeColor) -> U, leaf: () -> U) -> U {
+	public func extendedAnalysis<U>(branch: (RBTree, Element, RBTree, RBTreeColor) -> U, leaf: () -> U) -> U {
 		switch self {
 		case let .branch(l, e, r, c):
 			return branch(l, e, r, c)
@@ -190,7 +190,7 @@ public enum RBTree<E: Comparable>: MutableBinarySearchTreeType {
 extension RBTree {
 	public var debugDescription: String {
 		return self.recursiveDescription {
-			return $0.extendedAnalysis( { _, e, _, c in
+            return $0.extendedAnalysis(branch: { _, e, _, c in
 				let color = (c == .red) ? "red" : "black"
 				return "\(e) (\(color))"
 			}, leaf: {

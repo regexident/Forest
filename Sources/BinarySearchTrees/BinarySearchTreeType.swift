@@ -32,7 +32,7 @@ extension BinarySearchTreeType {
 	}
 	
 	final public func get(_ element: Element) -> Element? {
-		return analysis({ l, e, r in
+		return analysis(branch: { l, e, r in
 			if element < e {
 				return l.get(element)
 			} else if element > e {

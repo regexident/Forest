@@ -14,7 +14,7 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 	indirect case branch(AVLTree, Element, AVLTree, Int8)
  	
 	public var height: Int8 {
-		return extendedAnalysis({ _, _, _, h in h }, leaf: { 0 })
+		return extendedAnalysis(branch: { _, _, _, h in h }, leaf: { 0 })
 	}
 	
 	public init() {
@@ -46,7 +46,7 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 	}
 	
 	public func insertAndReturnExisting(_ element: Element) -> (AVLTree, Element?) {
-		return analysis({ l, e, r in
+		return analysis(branch: { l, e, r in
 			if element < e {
 				let (subtree, inserted) = l.insertAndReturnExisting(element)
 				return (AVLTree(subtree, e, r).rebalance(), inserted)
@@ -62,7 +62,7 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 	}
 	
 	public func removeAndReturnExisting(_ element: Element) -> (AVLTree, Element?) {
-		return analysis({ l, e, r in
+		return analysis(branch: { l, e, r in
 			if element < e {
 				let (subtree, removed) = l.removeAndReturnExisting(element)
 				return (AVLTree(subtree, e, r).rebalance(), removed)
@@ -114,7 +114,7 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 		}
 	}
 	
-	public func analysis<U>(_ branch: (AVLTree, Element, AVLTree) -> U, leaf: () -> U) -> U {
+	public func analysis<U>(branch: (AVLTree, Element, AVLTree) -> U, leaf: () -> U) -> U {
 		switch self {
 		case let .branch(l, e, r, _):
 			return branch(l, e, r)
@@ -123,7 +123,7 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 		}
 	}
 	
-	public func extendedAnalysis<U>(_ branch: (AVLTree, Element, AVLTree, Int8) -> U, leaf: () -> U) -> U {
+	public func extendedAnalysis<U>(branch: (AVLTree, Element, AVLTree, Int8) -> U, leaf: () -> U) -> U {
 		switch self {
 		case let .branch(l, e, r, h):
 			return branch(l, e, r, h)
@@ -136,7 +136,7 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 extension AVLTree {
 	public var debugDescription: String {
 		return self.recursiveDescription {
-			return $0.analysis({ _, e, _ in
+			return $0.analysis(branch: { _, e, _ in
 				"\(e) @ \(self.height)"
 			}, leaf: {
 				"nil @ \(self.height)"
