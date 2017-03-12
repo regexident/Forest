@@ -97,16 +97,20 @@ public enum AVLTree<E: Comparable>: MutableBinarySearchTreeType {
 	public func rebalance(_ tolerance: Int = 1) -> AVLTree {
 		let t = tolerance // inbalance tolerance
 		switch self {
-		case let .branch(.branch(.branch(ll, le, lr, llh), e, rl, lh), re, rr, _) where (lh > rr.height + t) && (llh > rl.height + t):
+		case let .branch(.branch(.branch(ll, le, lr, llh), e, rl, lh), re, rr, _)
+            where (lh > rr.height + t) && (llh > rl.height + t):
             // right rotation:
 			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr))
-		case let .branch(ll, le, .branch(lr, e, .branch(rl, re, rr, rrh), rh), _) where (rh > ll.height + t) && (rrh > lr.height + t):
+		case let .branch(ll, le, .branch(lr, e, .branch(rl, re, rr, rrh), rh), _)
+            where (rh > ll.height + t) && (rrh > lr.height + t):
             // left rotation:
 			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr))
-		case let .branch(.branch(ll, le, .branch(lr, e, rl, lrh), lh), re, rr, _) where (lh > rr.height + t) && (lrh > ll.height + t):
+		case let .branch(.branch(ll, le, .branch(lr, e, rl, lrh), lh), re, rr, _)
+            where (lh > rr.height + t) && (lrh > ll.height + t):
             // right left rotation:
 			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr))
-		case let .branch(ll, le, .branch(.branch(lr, e, rl, rlh), re, rr, rh), _) where (rh > ll.height + t) && (rlh > rr.height + t):
+		case let .branch(ll, le, .branch(.branch(lr, e, rl, rlh), re, rr, rh), _)
+            where (rh > ll.height + t) && (rlh > rr.height + t):
             // left right rotation:
 			return AVLTree(AVLTree(ll, le, lr), e, AVLTree(rl, re, rr))
 		default:
