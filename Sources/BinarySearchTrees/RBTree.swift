@@ -51,11 +51,10 @@ public enum RBTree<E: Comparable>: MutableBinarySearchTreeType {
 	}
 	
 	public func insertAndReturnExisting(_ element: Element) -> (RBTree, Element?) {
-		let (tree, existing) = self.insertInSubtreeAndReturnExisting(element)
-		switch tree {
-		case let .branch(l, e, r, _):
+		switch self.insertInSubtreeAndReturnExisting(element) {
+		case (let .branch(l, e, r, _), let existing):
 			return (RBTree(l, e, r, .black), existing)
-		default:
+		case (let tree, let existing):
 			return (tree, existing)
 		}
 	}
