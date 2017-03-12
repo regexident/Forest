@@ -39,6 +39,30 @@ extension BinaryTreeType {
 		})
 	}
 
+    final public func preorder(_ closure: (Element) -> ()) {
+        self.analysis({ (l, e, r) -> () in
+            closure(e)
+            l.preorder(closure)
+            r.preorder(closure)
+        }, leaf: {})
+    }
+
+    final public func inorder(_ closure: (Element) -> ()) {
+        self.analysis({ (l, e, r) -> () in
+            l.inorder(closure)
+            closure(e)
+            r.inorder(closure)
+        }, leaf: {})
+    }
+
+    final public func postorder(_ closure: (Element) -> ()) {
+        self.analysis({ (l, e, r) -> () in
+            l.postorder(closure)
+            r.postorder(closure)
+            closure(e)
+        }, leaf: {})
+    }
+
 	final public var height: Int8 {
 		return analysis({ l, _, r in
 			Swift.max(l.height, r.height) + 1

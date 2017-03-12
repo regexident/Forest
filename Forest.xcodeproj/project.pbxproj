@@ -45,7 +45,6 @@
 		BFA5F6111D22DB66001A9307 /* RBTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5F5F91D22DB66001A9307 /* RBTree.swift */; };
 		BFA5F6121D22DB66001A9307 /* PrunableBinarySearchTreeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5F5FA1D22DB66001A9307 /* PrunableBinarySearchTreeType.swift */; };
 		BFA5F6131D22DB66001A9307 /* BinaryTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5F5FC1D22DB66001A9307 /* BinaryTree.swift */; };
-		BFA5F6151D22DB66001A9307 /* BinaryTreeTraversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5F5FE1D22DB66001A9307 /* BinaryTreeTraversal.swift */; };
 		BFA5F6161D22DB66001A9307 /* BinaryTreeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5F5FF1D22DB66001A9307 /* BinaryTreeType.swift */; };
 		BFA5F6181D22DB66001A9307 /* CountableRange+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5F6011D22DB66001A9307 /* CountableRange+Extensions.swift */; };
 /* End PBXBuildFile section */
@@ -151,7 +150,6 @@
 		BFA5F5F91D22DB66001A9307 /* RBTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RBTree.swift; sourceTree = "<group>"; };
 		BFA5F5FA1D22DB66001A9307 /* PrunableBinarySearchTreeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrunableBinarySearchTreeType.swift; sourceTree = "<group>"; };
 		BFA5F5FC1D22DB66001A9307 /* BinaryTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryTree.swift; sourceTree = "<group>"; };
-		BFA5F5FE1D22DB66001A9307 /* BinaryTreeTraversal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryTreeTraversal.swift; sourceTree = "<group>"; };
 		BFA5F5FF1D22DB66001A9307 /* BinaryTreeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryTreeType.swift; sourceTree = "<group>"; };
 		BFA5F6011D22DB66001A9307 /* CountableRange+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CountableRange+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -358,7 +356,6 @@
 			isa = PBXGroup;
 			children = (
 				BFA5F5FF1D22DB66001A9307 /* BinaryTreeType.swift */,
-				BFA5F5FE1D22DB66001A9307 /* BinaryTreeTraversal.swift */,
 				BFA5F5FC1D22DB66001A9307 /* BinaryTree.swift */,
 			);
 			path = BinaryTrees;
@@ -554,7 +551,6 @@
 				BFA5F60F1D22DB66001A9307 /* GrowableBinarySearchTreeType.swift in Sources */,
 				BFA5F60D1D22DB66001A9307 /* AVLTree.swift in Sources */,
 				BFA5F6181D22DB66001A9307 /* CountableRange+Extensions.swift in Sources */,
-				BFA5F6151D22DB66001A9307 /* BinaryTreeTraversal.swift in Sources */,
 				BFA5F6111D22DB66001A9307 /* RBTree.swift in Sources */,
 				BFA5F6161D22DB66001A9307 /* BinaryTreeType.swift in Sources */,
 				BFA5F60E1D22DB66001A9307 /* BinarySearchTreeType.swift in Sources */,
@@ -940,6 +936,7 @@
 				BF37D7741E54DA02003D1F87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BF3C50031E2FF829005569E1 /* Build configuration list for PBXNativeTarget "ForestDemo" */ = {
 			isa = XCConfigurationList;
